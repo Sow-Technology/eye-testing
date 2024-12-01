@@ -11,27 +11,32 @@ import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 
-export default function EyeMeasurementsTable({ onSubmit }) {
-  const [measurements, setMeasurements] = useState({
-    rightEye: {
-      SPH: "",
-      CYL: "",
-      Axis: "",
-      NV: "",
-      DV: "",
-      additionalPower: "",
-      pupillaryDistance: "",
-    },
-    leftEye: {
-      SPH: "",
-      CYL: "",
-      Axis: "",
-      NV: "",
-      DV: "",
-      additionalPower: "",
-      pupillaryDistance: "",
-    },
-  });
+export default function EyeMeasurementsTable({
+  onSubmit,
+  initialMeasurements,
+}) {
+  const [measurements, setMeasurements] = useState(
+    initialMeasurements || {
+      rightEye: {
+        SPH: "",
+        CYL: "",
+        Axis: "",
+        NV: "",
+        DV: "",
+        additionalPower: "",
+        pupillaryDistance: "",
+      },
+      leftEye: {
+        SPH: "",
+        CYL: "",
+        Axis: "",
+        NV: "",
+        DV: "",
+        additionalPower: "",
+        pupillaryDistance: "",
+      },
+    }
+  );
 
   const [hasBifocal, setHasBifocal] = useState(false);
 

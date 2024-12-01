@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -6,16 +6,27 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { cn } from "@/lib/utils"; // Assuming you have a utility for class names
+import { cn } from "@/lib/utils";
+import { surveyQuestions } from "@/lib/data";
 
-export default function Survey({ questionSet, onNext, progress }) {
-  const [answers, setAnswers] = useState({});
-  const [errors, setErrors] = useState({}); // For tracking errors
+export default function Survey({
+  questionSet,
+  onNext,
+  onPrevious,
+  progress,
+  initialAnswers,
+  currentSet,
+}) {
+  const [answers, setAnswers] = useState(initialAnswers || {});
+  const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    setAnswers(initialAnswers || {});
+  }, [initialAnswers]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Validate answers before submitting
     const newErrors = {};
     questionSet.forEach((question) => {
       if (question.type === "mcq" && !answers[question.id]) {
@@ -29,13 +40,10 @@ export default function Survey({ questionSet, onNext, progress }) {
       }
     });
 
-    // If no errors, proceed
     if (Object.keys(newErrors).length === 0) {
       onNext(answers);
-      setAnswers({});
       setErrors({});
     } else {
-      // If there are errors, set error messages
       setErrors(newErrors);
     }
   };
@@ -201,7 +209,16 @@ export default function Survey({ questionSet, onNext, progress }) {
             </Card>
           ))}
         </div>
-        <Button type="submit">Next</Button>
+        <div className="flex justify-between">
+          {currentSet > 0 && (
+            <Button type="button" onClick={() => onPrevious(answers)}>
+              Previous
+            </Button>
+          )}
+          <Button type="submit">
+            {currentSet === surveyQuestions.length - 1 ? "Finish" : "Next"}
+          </Button>
+        </div>
       </form>
       <div className="mt-4 bg-gray-200 rounded-full h-2.5">
         <div

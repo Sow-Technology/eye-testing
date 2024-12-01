@@ -42,6 +42,12 @@ export default function Main() {
     }
   };
 
+  const handlePreviousSet = () => {
+    if (currentSet > 0) {
+      setCurrentSet(currentSet - 1);
+    }
+  };
+
   const handleEyeMeasurementsSubmit = (measurements) => {
     setEyeMeasurements(measurements);
     setShowPreview(true);
@@ -95,7 +101,11 @@ export default function Main() {
         </div>
         <div className="flex justify-between">
           <button
-            onClick={() => setShowPreview(false)}
+            onClick={() => {
+              setShowPreview(false);
+              setShowEyeMeasurements(false);
+              setCurrentSet(0);
+            }}
             className="bg-gray-300 text-black px-4 py-2 rounded"
           >
             Edit
@@ -128,11 +138,17 @@ export default function Main() {
           <Survey
             questionSet={surveyQuestions[currentSet]}
             onNext={handleNextSet}
+            onPrevious={handlePreviousSet}
             progress={((currentSet + 1) / surveyQuestions.length) * 100}
+            initialAnswers={answers}
+            currentSet={currentSet}
           />
         )}
         {showEyeMeasurements && !showPreview && !showSuccess && (
-          <EyeMeasurementsTable onSubmit={handleEyeMeasurementsSubmit} />
+          <EyeMeasurementsTable
+            onSubmit={handleEyeMeasurementsSubmit}
+            initialMeasurements={eyeMeasurements}
+          />
         )}
         {showPreview && !showSuccess && renderPreview()}
         {showSuccess && (
