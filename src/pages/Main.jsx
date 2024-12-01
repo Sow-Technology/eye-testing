@@ -8,19 +8,28 @@ import { surveyQuestions } from "@/lib/data";
 
 export default function Main() {
   const [currentSet, setCurrentSet] = useState(0);
-  const [showEyeMeasurements, setShowEyeMeasurements] = useState(true);
+  const [showEyeMeasurements, setShowEyeMeasurements] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [answers, setAnswers] = useState({});
   const [eyeMeasurements, setEyeMeasurements] = useState({
     rightEye: {
-      distance: { SPH: "", CYL: "", Axis: "" },
-      addition: { SPH: "", CYL: "", Axis: "" },
-      readingOnly: { SPH: "", CYL: "", Axis: "" },
+      SPH: "",
+      CYL: "",
+      Axis: "",
+      NV: "",
+      DV: "",
+      additionalPower: "",
+      pupillaryDistance: "",
     },
     leftEye: {
-      distance: { SPH: "", CYL: "", Axis: "" },
-      addition: { SPH: "", CYL: "", Axis: "" },
-      readingOnly: { SPH: "", CYL: "", Axis: "" },
+      SPH: "",
+      CYL: "",
+      Axis: "",
+      NV: "",
+      DV: "",
+      additionalPower: "",
+      pupillaryDistance: "",
     },
   });
 
@@ -33,9 +42,9 @@ export default function Main() {
     }
   };
 
-  const handleEyeMeasurementsSubmit = async (measurements) => {
+  const handleEyeMeasurementsSubmit = (measurements) => {
     setEyeMeasurements(measurements);
-    await handleSubmit();
+    setShowPreview(true);
   };
 
   const handleSubmit = async () => {
@@ -61,30 +70,71 @@ export default function Main() {
         toast.error("Failed to submit medical history", {
           id: "submit",
         });
-        // throw new Error("Failed to submit medical history");
       }
     } catch (error) {
       toast.error("Failed to submit medical history", {
         id: "submit",
       });
-
       console.error("Error submitting medical history:", error);
+    }
+  };
+
+  const renderPreview = () => {
+    return (
+      <div className="space-y-6">
+        <h2 className="text-2xl font-bold mb-4">Preview</h2>
+        {surveyQuestions.flat().map((question) => (
+          <div key={question.id} className="border-b pb-4">
+            <h3 className="font-semibold">{question.question}</h3>
+            <p>{renderAnswer(question, answers[question.id])}</p>
+          </div>
+        ))}
+        <div>
+          <h3 className="font-semibold">Eye Measurements</h3>
+          <pre>{JSON.stringify(eyeMeasurements, null, 2)}</pre>
+        </div>
+        <div className="flex justify-between">
+          <button
+            onClick={() => setShowPreview(false)}
+            className="bg-gray-300 text-black px-4 py-2 rounded"
+          >
+            Edit
+          </button>
+          <button
+            onClick={handleSubmit}
+            className="bg-indigo-600 text-white px-4 py-2 rounded"
+          >
+            Submit
+          </button>
+        </div>
+      </div>
+    );
+  };
+
+  const renderAnswer = (question, answer) => {
+    if (!answer) return "Not answered";
+    switch (question.type) {
+      case "checkbox":
+        return Array.isArray(answer) ? answer.join(", ") : answer;
+      default:
+        return answer;
     }
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-400 to-indigo-600 flex items-center justify-center p-4">
       <div className="bg-white rounded-lg shadow-xl p-8 max-w-4xl w-full">
-        {!showEyeMeasurements && !showSuccess && (
+        {!showEyeMeasurements && !showPreview && !showSuccess && (
           <Survey
             questionSet={surveyQuestions[currentSet]}
             onNext={handleNextSet}
             progress={((currentSet + 1) / surveyQuestions.length) * 100}
           />
         )}
-        {showEyeMeasurements && !showSuccess && (
+        {showEyeMeasurements && !showPreview && !showSuccess && (
           <EyeMeasurementsTable onSubmit={handleEyeMeasurementsSubmit} />
         )}
+        {showPreview && !showSuccess && renderPreview()}
         {showSuccess && (
           <SuccessMessage reward="Your medical history has been submitted successfully." />
         )}
