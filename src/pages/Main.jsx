@@ -8,7 +8,7 @@ import { surveyQuestions } from "@/lib/data";
 
 export default function Main() {
   const [currentSet, setCurrentSet] = useState(0);
-  const [showEyeMeasurements, setShowEyeMeasurements] = useState(false);
+  const [showEyeMeasurements, setShowEyeMeasurements] = useState(true);
   const [showSuccess, setShowSuccess] = useState(false);
   const [answers, setAnswers] = useState({});
   const [eyeMeasurements, setEyeMeasurements] = useState({

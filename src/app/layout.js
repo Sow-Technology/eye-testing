@@ -1,11 +1,10 @@
 import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from "sonner";
-
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
+import { Roboto, Ubuntu_Sans } from "next/font/google";
+const geistSans = Ubuntu_Sans({
+  subsets: ["latin"],
+  weight: ["100", "300", "400", "500", "700"],
 });
 const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
@@ -21,9 +20,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${geistSans.className} $antialiased`}>
         <Toaster position="top-center" />
         {children}
       </body>
