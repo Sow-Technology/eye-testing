@@ -58,19 +58,19 @@ export const surveyQuestions = [
       id: "itchingIrritation",
       question: "Are you experiencing itching or irritation in your eyes?",
       type: "mcq",
-      options: ["OD (Right Eye)", "OS (Left Eye)", "No"],
+      options: ["OD (Right Eye)", "OS (Left Eye)", "Both", "No"],
     },
     {
       id: "wateringOfEyes",
       question: "Are you experiencing watering of eyes?",
       type: "mcq",
-      options: ["OD (Right Eye)", "OS (Left Eye)", "No"],
+      options: ["OD (Right Eye)", "OS (Left Eye)", "Both", "No"],
     },
     {
       id: "rednessOfEyes",
       question: "Are you experiencing redness of eyes?",
       type: "mcq",
-      options: ["OD (Right Eye)", "OS (Left Eye)", "No"],
+      options: ["OD (Right Eye)", "OS (Left Eye)", "Both", "No"],
     },
   ],
   [
