@@ -1,9 +1,9 @@
+"use client";
 import { useState } from "react";
 import Survey from "../components/Survey";
 import EyeMeasurementsTable from "../components/EyeMeasurementsTable";
 import SuccessMessage from "../components/SuccessMessage";
 import { toast } from "sonner";
-import { Toaster } from "@/components/ui/sonner";
 import { surveyQuestions } from "@/lib/data";
 
 export default function Main() {
@@ -74,7 +74,6 @@ export default function Main() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-400 to-indigo-600 flex items-center justify-center p-4">
-      <Toaster position="top-center" />
       <div className="bg-white rounded-lg shadow-xl p-8 max-w-4xl w-full">
         {!showEyeMeasurements && !showSuccess && (
           <Survey
@@ -87,7 +86,7 @@ export default function Main() {
           <EyeMeasurementsTable onSubmit={handleEyeMeasurementsSubmit} />
         )}
         {showSuccess && (
-          <SuccessMessage message="Your medical history has been submitted successfully." />
+          <SuccessMessage reward="Your medical history has been submitted successfully." />
         )}
       </div>
     </div>
