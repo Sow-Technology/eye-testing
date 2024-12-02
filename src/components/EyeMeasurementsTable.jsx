@@ -35,10 +35,9 @@ export default function EyeMeasurementsTable({
         additionalPower: "",
         pupillaryDistance: "",
       },
+      multiFocal: false,
     }
   );
-
-  const [hasBifocal, setHasBifocal] = useState(false);
 
   const handleInputChange = (eye, field, value) => {
     setMeasurements((prev) => ({
@@ -119,7 +118,6 @@ export default function EyeMeasurementsTable({
               <th className="border border-gray-300 p-2">SPH</th>
               <th className="border border-gray-300 p-2">CYL</th>
               <th className="border border-gray-300 p-2">Axis</th>
-              <th className="border border-gray-300 p-2">NV</th>
               <th className="border border-gray-300 p-2">DV</th>
             </tr>
           </thead>
@@ -169,18 +167,7 @@ export default function EyeMeasurementsTable({
                     className="w-full"
                   />
                 </td>
-                {/* NV Input */}
-                <td className="border border-gray-300 p-2">
-                  <Input
-                    type="number"
-                    placeholder="NV (Near Vision)"
-                    value={measurements[eye].NV}
-                    onChange={(e) =>
-                      handleInputChange(eye, "NV", e.target.value)
-                    }
-                    className="w-full"
-                  />
-                </td>
+
                 {/* DV Input */}
                 <td className="border border-gray-300 p-2">
                   <Input
@@ -200,11 +187,18 @@ export default function EyeMeasurementsTable({
         {/* Bifocal Toggle */}
         <div className="mb-4">
           <span className="font-semibold mr-4">
-            Do you have a Bifocal Power?
+            Do you have a Multi-focal Power?
           </span>
           <RadioGroup
-            value={hasBifocal ? "yes" : "no"}
-            onValueChange={(value) => setHasBifocal(value === "yes")}
+            value={measurements.multiFocal == true ? "yes" : "no"}
+            onValueChange={(value) => {
+              let bool = value == "yes" ? true : false;
+              console.log(bool);
+              setMeasurements((prev) => ({
+                ...prev,
+                multiFocal: bool,
+              }));
+            }}
             className="inline-flex space-x-4"
           >
             <div className="flex items-center space-x-2">
@@ -218,7 +212,7 @@ export default function EyeMeasurementsTable({
           </RadioGroup>
         </div>
         {/* Additional Power and Pupillary Distance Table */}
-        {hasBifocal && (
+        {measurements.multiFocal && (
           <table className="w-full mb-4 border-collapse border border-gray-300">
             <thead>
               <tr>
@@ -227,6 +221,7 @@ export default function EyeMeasurementsTable({
                 <th className="border border-gray-300 p-2">
                   Pupillary Distance
                 </th>
+                <th className="border border-gray-300 p-2">NV</th>
               </tr>
             </thead>
             <tbody>
@@ -236,19 +231,17 @@ export default function EyeMeasurementsTable({
                     {eye === "rightEye" ? "OD (Right Eye)" : "OS (Left Eye)"}
                   </td>
                   <td className="border border-gray-300 p-2">
-                    <Input
-                      type="number"
-                      placeholder="Enter Additional Power"
+                    <Select
                       value={measurements[eye].additionalPower}
-                      onChange={(e) =>
-                        handleInputChange(
-                          eye,
-                          "additionalPower",
-                          e.target.value
-                        )
+                      onValueChange={(value) =>
+                        handleInputChange(eye, "additionalPower", value)
                       }
-                      className="w-full"
-                    />
+                    >
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select Addition Power" />
+                      </SelectTrigger>
+                      <SelectContent>{generateOptions("SPH")}</SelectContent>
+                    </Select>
                   </td>
                   <td className="border border-gray-300 p-2">
                     <Input
@@ -261,6 +254,18 @@ export default function EyeMeasurementsTable({
                           "pupillaryDistance",
                           e.target.value
                         )
+                      }
+                      className="w-full"
+                    />
+                  </td>
+                  {/* NV Input */}
+                  <td className="border border-gray-300 p-2">
+                    <Input
+                      type="number"
+                      placeholder="NV (Near Vision)"
+                      value={measurements[eye].NV}
+                      onChange={(e) =>
+                        handleInputChange(eye, "NV", e.target.value)
                       }
                       className="w-full"
                     />

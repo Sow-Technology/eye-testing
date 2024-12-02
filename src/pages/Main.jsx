@@ -9,7 +9,7 @@ import { surveyQuestions } from "@/lib/data";
 export default function Main() {
   const [currentSet, setCurrentSet] = useState(0);
   const [showEyeMeasurements, setShowEyeMeasurements] = useState(false);
-  const [showPreview, setShowPreview] = useState(false);
+  const [showPreview, setShowPreview] = useState(true);
   const [showSuccess, setShowSuccess] = useState(false);
   const [answers, setAnswers] = useState({});
   const [eyeMeasurements, setEyeMeasurements] = useState({
@@ -31,6 +31,7 @@ export default function Main() {
       additionalPower: "",
       pupillaryDistance: "",
     },
+    multiFocal: false,
   });
 
   const handleNextSet = (ans) => {
@@ -95,10 +96,84 @@ export default function Main() {
             <p>{renderAnswer(question, answers[question.id])}</p>
           </div>
         ))}
+
+        {/* Eye Measurements as Table */}
         <div>
-          <h3 className="font-semibold">Eye Measurements</h3>
-          <pre>{JSON.stringify(eyeMeasurements, null, 2)}</pre>
+          <h3 className="font-semibold mb-4">Eye Measurements</h3>
+          <table className="min-w-full border border-gray-300">
+            <thead>
+              <tr className="bg-gray-100">
+                <th className="border px-4 py-2">Eye</th>
+                <th className="border px-4 py-2">SPH</th>
+                <th className="border px-4 py-2">CYL</th>
+                <th className="border px-4 py-2">Axis</th>
+                <th className="border px-4 py-2">NV</th>
+                <th className="border px-4 py-2">DV</th>
+                <th className="border px-4 py-2">Additional Power</th>
+                <th className="border px-4 py-2">Pupillary Distance</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className="border px-4 py-2">Right Eye</td>
+                <td className="border px-4 py-2">
+                  {eyeMeasurements.rightEye.SPH || "Not provided"}
+                </td>
+                <td className="border px-4 py-2">
+                  {eyeMeasurements.rightEye.CYL || "Not provided"}
+                </td>
+                <td className="border px-4 py-2">
+                  {eyeMeasurements.rightEye.Axis || "Not provided"}
+                </td>
+                <td className="border px-4 py-2">
+                  {eyeMeasurements.rightEye.NV || "Not provided"}
+                </td>
+                <td className="border px-4 py-2">
+                  {eyeMeasurements.rightEye.DV || "Not provided"}
+                </td>
+                <td className="border px-4 py-2">
+                  {eyeMeasurements.rightEye.additionalPower || "Not provided"}
+                </td>
+                <td className="border px-4 py-2">
+                  {eyeMeasurements.rightEye.pupillaryDistance || "Not provided"}
+                </td>
+              </tr>
+              <tr>
+                <td className="border px-4 py-2">Left Eye</td>
+                <td className="border px-4 py-2">
+                  {eyeMeasurements.leftEye.SPH || "Not provided"}
+                </td>
+                <td className="border px-4 py-2">
+                  {eyeMeasurements.leftEye.CYL || "Not provided"}
+                </td>
+                <td className="border px-4 py-2">
+                  {eyeMeasurements.leftEye.Axis || "Not provided"}
+                </td>
+                <td className="border px-4 py-2">
+                  {eyeMeasurements.leftEye.NV || "Not provided"}
+                </td>
+                <td className="border px-4 py-2">
+                  {eyeMeasurements.leftEye.DV || "Not provided"}
+                </td>
+                <td className="border px-4 py-2">
+                  {eyeMeasurements.leftEye.additionalPower || "Not provided"}
+                </td>
+                <td className="border px-4 py-2">
+                  {eyeMeasurements.leftEye.pupillaryDistance || "Not provided"}
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td className="border px-4 py-2" colSpan="8">
+                  Multi-Focal: {eyeMeasurements.multiFocal ? "Yes" : "No"}
+                </td>
+              </tr>
+            </tfoot>
+          </table>
         </div>
+
+        {/* Buttons */}
         <div className="flex justify-between">
           <button
             onClick={() => {

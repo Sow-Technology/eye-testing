@@ -36,6 +36,7 @@ const MedicalHistorySchema = new mongoose.Schema(
         NV: String, // Near Vision for the left eye
         DV: String, // Distance Vision for the left eye
       },
+      multiFocal: Boolean,
     },
   },
   { timestamps: true }
