@@ -8,7 +8,7 @@ import { surveyQuestions } from "@/lib/data";
 
 export default function Main() {
   const [currentSet, setCurrentSet] = useState(0);
-  const [showEyeMeasurements, setShowEyeMeasurements] = useState(false);
+  const [showEyeMeasurements, setShowEyeMeasurements] = useState(true);
   const [showPreview, setShowPreview] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [answers, setAnswers] = useState({});
@@ -126,10 +126,10 @@ export default function Main() {
                   {eyeMeasurements.rightEye.Axis || "Not provided"}
                 </td>
                 <td className="border px-4 py-2">
-                  {eyeMeasurements.rightEye.NV || "Not provided"}
+                  {`6/${eyeMeasurements.rightEye.NV}` || "Not provided"}
                 </td>
                 <td className="border px-4 py-2">
-                  {eyeMeasurements.rightEye.DV || "Not provided"}
+                  {`6/{eyeMeasurements.rightEye.DV}` || "Not provided"}
                 </td>
                 <td className="border px-4 py-2">
                   {eyeMeasurements.rightEye.additionalPower || "Not provided"}
@@ -150,10 +150,10 @@ export default function Main() {
                   {eyeMeasurements.leftEye.Axis || "Not provided"}
                 </td>
                 <td className="border px-4 py-2">
-                  {eyeMeasurements.leftEye.NV || "Not provided"}
+                  {`6/${eyeMeasurements.leftEye.NV}` || "Not provided"}
                 </td>
                 <td className="border px-4 py-2">
-                  {eyeMeasurements.leftEye.DV || "Not provided"}
+                  {`6/${eyeMeasurements.leftEye.DV}` || "Not provided"}
                 </td>
                 <td className="border px-4 py-2">
                   {eyeMeasurements.leftEye.additionalPower || "Not provided"}

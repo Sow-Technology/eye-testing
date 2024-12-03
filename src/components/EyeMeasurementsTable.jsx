@@ -169,7 +169,8 @@ export default function EyeMeasurementsTable({
                 </td>
 
                 {/* DV Input */}
-                <td className="border border-gray-300 p-2">
+                <td className="border border-gray-300 p-2 flex items-center">
+                  6/
                   <Input
                     type="number"
                     placeholder="DV (Distance Vision)"
@@ -259,7 +260,8 @@ export default function EyeMeasurementsTable({
                     />
                   </td>
                   {/* NV Input */}
-                  <td className="border border-gray-300 p-2">
+                  <td className="border border-gray-300 p-2 flex items-center">
+                    6/
                     <Input
                       type="number"
                       placeholder="NV (Near Vision)"
