@@ -21,16 +21,18 @@ const MedicalHistorySchema = new mongoose.Schema(
     personalHistory: [String],
     eyeMeasurements: {
       rightEye: {
-        distance: { SPH: String, CYL: String, Axis: String },
-        addition: { SPH: String, CYL: String, Axis: String },
+        SPH: String,
+        CYL: String,
+        Axis: String,
         additionalPower: String, // Additional Power for the right eye
         pupillaryDistance: String, // Pupillary Distance for the right eye
         NV: String, // Near Vision for the right eye
         DV: String, // Distance Vision for the right eye
       },
       leftEye: {
-        distance: { SPH: String, CYL: String, Axis: String },
-        addition: { SPH: String, CYL: String, Axis: String },
+        SPH: String,
+        CYL: String,
+        Axis: String,
         additionalPower: String, // Additional Power for the left eye
         pupillaryDistance: String, // Pupillary Distance for the left eye
         NV: String, // Near Vision for the left eye
